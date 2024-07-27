@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiResource('users', UserController::class);
-Route::apiResource('posts', PostController::class);
-Route::apiResource('comments', CommentController::class);
+
+Route::middleware(['api', 'throttle:checkRateLimit'])->group(function () {
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('posts', PostController::class);
+    Route::apiResource('comments', CommentController::class);
+});
 
