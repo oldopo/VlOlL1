@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CommentController extends Controller
 {
     public function index()
     {
-        return Comment::with('user', 'commentable')->get();
+        $cacheKey = 'comments.all'; // Kľúč pre cache
+        $comments = Cache::remember($cacheKey, 60, function () {
+            return Comment::with('user', 'commentable')->get();
+        });
+
+        return response()->json($comments, 200);
     }
 
     public function store(Request $request)
@@ -24,12 +30,20 @@ class CommentController extends Controller
 
         $comment = Comment::create($validated);
 
+        Cache::forget('comments.all');
+
         return response()->json($comment, 201);
     }
 
     public function show(Comment $comment)
     {
-        return $comment->load('user', 'commentable');
+        $cacheKey = "comment.{$comment->id}";
+
+        $comment = Cache::remember($cacheKey, 60, function () use ($comment) {
+            return $comment->load('user', 'commentable');
+        });
+
+        return response()->json($comment, 200);
     }
 
     public function update(Request $request, Comment $comment)
@@ -44,12 +58,17 @@ class CommentController extends Controller
 
         $comment->update($validated);
 
+        Cache::forget("comment.{$comment->id}");
+
         return response()->json($comment, 200);
     }
 
     public function destroy(Comment $comment)
     {
         $comment->delete();
+
+        Cache::forget("comment.{$comment->id}");
+
         return response()->json(null, 204);
     }
 }

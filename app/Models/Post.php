@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Post extends Model
 {
@@ -19,5 +20,12 @@ class Post extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public static function getCachedPosts()
+    {
+        return Cache::remember('posts.all', now()->addMinutes(60), function () {
+            return self::all();
+        });
     }
 }

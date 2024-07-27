@@ -32,7 +32,13 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return $post->load('user', 'comments');
+        $cacheKey = "post.{$post->id}";
+
+        $post = Cache::remember($cacheKey, 60, function () use ($post) {
+            return $post;
+        });
+
+        return response()->json($post, 200);
     }
 
     public function update(Request $request, Post $post)
@@ -45,12 +51,17 @@ class PostController extends Controller
 
         $post->update($validated);
 
+        Cache::forget("post.{$post->id}");
+
         return response()->json($post, 200);
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
+
+        Cache::forget("comment.{$post->id}");
+
         return response()->json(null, 204);
     }
 }
