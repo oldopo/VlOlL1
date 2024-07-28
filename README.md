@@ -7,7 +7,6 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-
 ## VlOlL1 based on Laravel Requirements
 
 This Web Project is compatible with Laravel 11.9 and requires PHP 8.2.
@@ -16,7 +15,7 @@ This Web Project is compatible with Laravel 11.9 and requires PHP 8.2.
 ```bash
 git clone https://github.com/oldopo/VlOlL1.git
 cd VlOlL1
-```
+``` 
 
 ## skopírujte .env.example na .env , prípadná kontrola obsahu .env:
 ```text
