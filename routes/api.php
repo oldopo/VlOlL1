@@ -16,3 +16,6 @@ Route::middleware(['api', 'throttle:checkRateLimit'])->group(function () {
     Route::apiResource('comments', CommentController::class);
 });
 
+Route::get('/api/documentation', function () {
+    return response()->file(storage_path('api-docs/api-docs.json'));
+});
