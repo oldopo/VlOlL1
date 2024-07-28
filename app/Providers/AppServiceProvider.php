@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
     {
         RateLimiter::for('checkRateLimit', function (Request $request) {
             return [
-                Limit::perMinute(60)->by($request->ip()), // Limit 60 10 requests per minute by IP address.
+                Limit::perMinute(60)->by($request->ip()), // Limit 60 requests per minute by IP address.
             ];
         });
     }
