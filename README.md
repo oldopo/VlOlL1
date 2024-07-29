@@ -32,7 +32,6 @@ DB_PASSWORD=heslo
 ```bash
 docker-compose exec app bash
 composer install
-exit
 ```
 
 Spustenie programu a kontrola pripojenia:
