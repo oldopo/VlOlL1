@@ -39,14 +39,28 @@ Spustenie programu a kontrola pripojenia:
 ```bash
 docker-compose up -d --build
 ```
+
+vygenerujte API Key aplikácie:
+```bash
+php artisan key:generate
+```
+
+zapíšte nový API Key aplikácie zo súboru .env do:
+```text
+/.env.testing
+/phpunit.xml
+```
+
 spustenie migrácií:
 ```bash
 docker-compose exec app php artisan migrate
 ```
+
 spustenie testov:
 ```bash
 docker-compose exec app php artisan test
 ```
+
 Postman testovanie, import collection z priečinka a manuálna kontrola:
 ```text
 /postman-collection/VlOlL1.postman_collection.json
